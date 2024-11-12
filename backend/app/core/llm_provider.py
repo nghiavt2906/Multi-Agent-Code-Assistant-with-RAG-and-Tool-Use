@@ -48,7 +48,7 @@ class LLMProvider(ABC):
 class OpenAIProvider(LLMProvider):
     """OpenAI LLM Provider"""
     
-    def __init__(self, api_key: str = None, model: str = "gpt-4-turbo-preview"):
+    def __init__(self, api_key: str = None, model: str = "gpt-4o"):
         if AsyncOpenAI is None:
             raise ImportError("OpenAI package not installed")
         

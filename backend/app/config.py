@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     REDIS_DB: int = 0
     
     # LLM Settings
-    DEFAULT_MODEL: str = "gpt-4-turbo-preview"
+    DEFAULT_MODEL: str = "gpt-4o"
     DEFAULT_TEMPERATURE: float = 0.7
     MAX_TOKENS: int = 2000
     

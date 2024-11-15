@@ -2,6 +2,19 @@
 
 ## Backend Setup
 
+### 0. Setup Virtual Environment (Recommended)
+
+**First time setup - Enable script execution (Windows):**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+**Activate virtual environment:**
+```powershell
+# From the project root directory
+.\.venv\Scripts\Activate.ps1
+```
+
 ### 1. Install Python Dependencies
 
 ```powershell
@@ -12,13 +25,19 @@ pip install -r requirements.txt
 ### 2. Configure Environment Variables
 
 ```powershell
-cp .env.example .env
+# Windows PowerShell
+Copy-Item .env.example .env
+
+# Or manually create .env file if .env.example doesn't exist
 ```
 
 Edit `.env` and add your API keys:
 ```
 OPENAI_API_KEY=your_openai_api_key_here
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
+
+# CORS must be in JSON array format
+CORS_ORIGINS=["http://localhost:3000","http://localhost:3001"]
 ```
 
 ### 3. Initialize Vector Database
@@ -103,24 +122,29 @@ curl http://localhost:8000/api/v1/tools
 
 ### Backend Issues
 
-1. **Import Errors**: Make sure all dependencies are installed
+1. **PowerShell Script Execution Error**: If you get "running scripts is disabled" error:
+   ```powershell
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ```
+
+2. **Import Errors**: Make sure all dependencies are installed
    ```powershell
    pip install -r requirements.txt
    ```
 
-2. **Vector DB Issues**: Delete and reinitialize
+3. **Vector DB Issues**: Delete and reinitialize
    ```powershell
-   rm -r data/chroma
-   python scripts/init_vectordb.py
+   Remove-Item -Recurse -Force data\chroma
+   python scripts\init_vectordb.py
    ```
 
-3. **API Key Errors**: Check your `.env` file
+4. **API Key Errors**: Check your `.env` file
 
 ### Frontend Issues
 
 1. **Module Not Found**: Reinstall dependencies
    ```powershell
-   rm -r node_modules
+   Remove-Item -Recurse -Force node_modules
    npm install
    ```
 
@@ -150,6 +174,6 @@ npm run build
 | OPENAI_API_KEY | OpenAI API key | Yes (if using GPT) |
 | ANTHROPIC_API_KEY | Anthropic API key | Yes (if using Claude) |
 | CHROMA_PERSIST_DIR | Vector DB storage path | No (default: ./data/chroma) |
-| DEFAULT_MODEL | Default LLM model | No (default: gpt-4-turbo-preview) |
+| DEFAULT_MODEL | Default LLM model | No (default: gpt-4o) |
 | DEFAULT_TEMPERATURE | Default temperature | No (default: 0.7) |
 | DEBUG | Enable debug mode | No (default: True) |

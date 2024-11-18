@@ -66,7 +66,7 @@ curl -X POST http://localhost:8000/api/v1/chat `
 - `OPENAI_API_KEY` or `ANTHROPIC_API_KEY`
 
 **Optional:**
-- `DEFAULT_MODEL=gpt-4-turbo-preview`
+- `DEFAULT_MODEL=gpt-4o`
 - `DEFAULT_TEMPERATURE=0.7`
 - `DEBUG=True`
 

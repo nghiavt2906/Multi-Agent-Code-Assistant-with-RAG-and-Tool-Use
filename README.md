@@ -12,6 +12,28 @@ An advanced AI-powered coding assistant that leverages multiple specialized agen
 - **Code Execution Sandbox**: Safe environment for testing generated code
 - **Smart Prompt Engineering**: Optimized prompts for different agent roles and tasks
 
+## 📸 Screenshots
+
+### Modern Chat Interface
+![Chat Interface](images/chat-interface.png)
+*Clean, ChatGPT-style interface with dark mode and smooth animations*
+
+### Agent Collaboration in Action
+![Agent Execution Trace](images/agent-trace.png)
+*Real-time visualization of multiple agents working together on complex tasks*
+
+### Code Generation & Review
+![Code Generation](images/code-generation.png)
+*AI-powered code generation with built-in review and optimization*
+
+### Smart Code Debugging
+![Debugging Example](images/debugging-example.png)
+*Intelligent debugging with context-aware suggestions and fixes*
+
+### Interactive Chat History
+![Chat History](images/chat-history.png)
+*Sidebar with conversation management and quick access to past sessions*
+
 ## 🏗️ Architecture
 
 ```

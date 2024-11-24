@@ -15,23 +15,15 @@ An advanced AI-powered coding assistant that leverages multiple specialized agen
 ## 📸 Screenshots
 
 ### Modern Chat Interface
-![Chat Interface](images/chat-interface.png)
+![Chat Interface](images/img-1.png)
 *Clean, ChatGPT-style interface with dark mode and smooth animations*
 
-### Agent Collaboration in Action
-![Agent Execution Trace](images/agent-trace.png)
-*Real-time visualization of multiple agents working together on complex tasks*
-
 ### Code Generation & Review
-![Code Generation](images/code-generation.png)
+![Code Generation](images/img-2.png)
 *AI-powered code generation with built-in review and optimization*
 
-### Smart Code Debugging
-![Debugging Example](images/debugging-example.png)
-*Intelligent debugging with context-aware suggestions and fixes*
-
 ### Interactive Chat History
-![Chat History](images/chat-history.png)
+![Chat History](images/img-3.png)
 *Sidebar with conversation management and quick access to past sessions*
 
 ## 🏗️ Architecture

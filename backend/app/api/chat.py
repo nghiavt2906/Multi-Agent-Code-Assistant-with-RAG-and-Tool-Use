@@ -3,18 +3,33 @@ Chat endpoints for interacting with agents
 """
 
 from fastapi import APIRouter, HTTPException
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 import uuid
 from loguru import logger
 
 from app.models import ChatRequest, ChatResponse
 from app.core.orchestrator import AgentOrchestrator
 from app.core.rag_system import RAGSystem
+from app.core.vector_store import VectorStoreManager
 
 router = APIRouter()
 
 # Store active orchestrators by conversation ID
 orchestrators: Dict[str, AgentOrchestrator] = {}
+
+# Singleton RAG system instance
+_rag_system: Optional[RAGSystem] = None
+
+
+def get_rag_system() -> RAGSystem:
+    """Get or create the RAG system singleton"""
+    global _rag_system
+    if _rag_system is None:
+        logger.info("Initializing RAG system...")
+        vector_store = VectorStoreManager()
+        _rag_system = RAGSystem(vector_store=vector_store)
+        logger.info("RAG system initialized successfully")
+    return _rag_system
 
 
 def get_orchestrator(
@@ -25,7 +40,10 @@ def get_orchestrator(
     if conversation_id and conversation_id in orchestrators:
         return orchestrators[conversation_id]
     
-    # Create new orchestrator
+    # Create new orchestrator with RAG system
+    if rag_system is None:
+        rag_system = get_rag_system()
+    
     orchestrator = AgentOrchestrator(rag_system=rag_system)
     if conversation_id:
         orchestrators[conversation_id] = orchestrator
@@ -49,9 +67,9 @@ async def chat(request: ChatRequest):
         conversation_id = request.conversation_id or str(uuid.uuid4())
         
         logger.info(f"Processing chat request for conversation {conversation_id}")
+        logger.info(f"RAG enabled: {request.use_rag}")
         
-        # Get orchestrator (with RAG system injected via dependency)
-        # For now, we'll create without RAG dependency injection
+        # Get orchestrator with RAG system
         orchestrator = get_orchestrator(conversation_id)
         
         # Execute task

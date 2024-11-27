@@ -3,7 +3,7 @@ Chat endpoints for interacting with agents
 """
 
 from fastapi import APIRouter, HTTPException
-from typing import Dict, Any, Optional
+from typing import Dict, Optional
 import uuid
 from loguru import logger
 

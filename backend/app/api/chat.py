@@ -19,20 +19,23 @@ orchestrators: Dict[str, AgentOrchestrator] = {}
 
 # Singleton RAG system instance
 _rag_system: Optional[RAGSystem] = None
+_rag_initialized: bool = False
 
 
-def get_rag_system() -> RAGSystem:
+async def get_rag_system() -> RAGSystem:
     """Get or create the RAG system singleton"""
-    global _rag_system
-    if _rag_system is None:
+    global _rag_system, _rag_initialized
+    if _rag_system is None or not _rag_initialized:
         logger.info("Initializing RAG system...")
         vector_store = VectorStoreManager()
+        await vector_store.initialize()
         _rag_system = RAGSystem(vector_store=vector_store)
+        _rag_initialized = True
         logger.info("RAG system initialized successfully")
     return _rag_system
 
 
-def get_orchestrator(
+async def get_orchestrator(
     conversation_id: str = None,
     rag_system: RAGSystem = None
 ) -> AgentOrchestrator:
@@ -42,7 +45,7 @@ def get_orchestrator(
     
     # Create new orchestrator with RAG system
     if rag_system is None:
-        rag_system = get_rag_system()
+        rag_system = await get_rag_system()
     
     orchestrator = AgentOrchestrator(rag_system=rag_system)
     if conversation_id:
@@ -70,7 +73,7 @@ async def chat(request: ChatRequest):
         logger.info(f"RAG enabled: {request.use_rag}")
         
         # Get orchestrator with RAG system
-        orchestrator = get_orchestrator(conversation_id)
+        orchestrator = await get_orchestrator(conversation_id)
         
         # Execute task
         result = await orchestrator.execute_task(request)
